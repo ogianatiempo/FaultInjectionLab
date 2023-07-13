@@ -2,8 +2,14 @@
 victim.o: victim.c
 	avr-gcc -O0 -DF_CPU=8000000UL -mmcu=atmega328p -c -o victim.o victim.c
 
-victim: victim.o
-	avr-gcc -mmcu=atmega328p victim.o -o victim
+trigger.o: trigger.c trigger.h
+	avr-gcc -Os -DF_CPU=8000000UL -mmcu=atmega328p -c -o trigger.o trigger.c
+
+uart.o: uart.c uart.h
+	avr-gcc -Os -DF_CPU=8000000UL -mmcu=atmega328p -c -o uart.o uart.c
+
+victim: victim.o uart.o trigger.o
+	avr-gcc -mmcu=atmega328p victim.o uart.o trigger.o -o victim
 
 victim.hex: victim
 	avr-objcopy -O ihex -R .eeprom victim victim.hex
