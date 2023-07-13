@@ -11,6 +11,6 @@ void trigger_high() {
 }
 
 void trigger_low() {
-  // set pin 5 high to turn led on */
+  // set pin 5 high to turn led off */
   PORTB &= ~_BV(PORTB5);
 }
