@@ -22,7 +22,7 @@ int main() {
   uint offset = pio_add_program(pio, &glitch_program);
   printf("Loaded program at %d\n", offset);
 
-  power_glitch_setup(pio, 0, offset, 15, 14, 100);
+  power_glitch_setup(pio, 0, offset, 15, 16, 100);
 }
 
 void power_glitch_setup(PIO pio, uint sm, uint offset, uint out_pin,

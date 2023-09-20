@@ -20,7 +20,7 @@ int main(void) {
     }
 
     uart_putstr("c == ");
-    uart_putint(c);
+    uart_putuint_dec(c);
     uart_putstr("\r\n");
 
     if (c != 10000)

@@ -17,7 +17,7 @@ glitch:
 power_off:
     jmp x-- power_off   ; Delay for (x + 1) cycles, x is a 32 bit number
     set pins, 0   ; Turn power on (inverted by transistor)
-    wait 1 gpio 13
+    wait 1 gpio 17
     jmp idle
     
 % c-sdk {

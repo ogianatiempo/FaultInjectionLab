@@ -7,3 +7,4 @@ void uart_putstr(char *s);
 void uart_hex(uint8_t c);
 void uart_putint(int i);
 void uart_putuint(int i);
+void uart_putuint_dec(int u);
