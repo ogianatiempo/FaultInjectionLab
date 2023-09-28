@@ -15,7 +15,7 @@ victim.hex: victim
 	avr-objcopy -O ihex -R .eeprom victim victim.hex
 
 flash: victim.hex
-	avrdude -F -V -c arduino -p m328p -P /dev/ttyUSB0 -b 57600 -U flash:w:victim.hex
+	avrdude -F -V -c arduino -p m328p -P ${DEVPATH} -b 57600 -U flash:w:victim.hex
 
 clean:
 	rm -f *.o

@@ -1,6 +1,15 @@
 # FaultInjectionLab
 
-## Quick Start
+## Materials
+
+- Arduino Pro Mini 3.3V
+- Raspberry Pico
+- 10K Ohm potentiometer
+- 2 push buttons
+- NPN 2N2222 transistor
+- USB-TTL Adapter
+
+## Getting started
 Clone this repo:
 
 ```
@@ -10,14 +19,14 @@ cd pico-sdk
 git submodule update --init
 ```
 
-Install prerequisites:
+Install the prerequisites:
 
 ```
 sudo apt update
 sudo apt install cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential gcc-avr avrdude
 ```
 
-Build attacker code:
+Build the attacker code:
 
 ```
 cd ../attacker
@@ -27,18 +36,79 @@ cmake ..
 make
 ```
 
-Then copy `power_glitch/power_glitch.uf2` to the Raspberry Pico, for example:
+Connect the Raspberry Pico to your computer while holding the `BOOTSEL` button to enter mass storage device mode. Then copy `power_glitch/power_glitch.uf2` to the Raspberry Pico, for example:
 
 ```
 cp power_glitch/power_glitch.uf2 /media/octa/RPI-RP2/
 ```
 
-Build the victim code:
+Disconnect the Raspberry Pico and connect the Arduino Pro Mini using the USB-TTL adapter:
+
+| Arduino | Adapter |
+|---------|---------|
+| Gnd     | Gnd     |
+| Vcc     | 3V3     |
+| TX0     | RXD     |
+| RX1     | TXD     |
+| GRN     | DTR     |
+
+> Note: If your adapter supplies 5V you have to connect it to the RAW pin on the Arduino.
+
+Build and flash the victim code:
 
 ```
 cd ../../victim/00_loop/
-make flash
+DEVPATH=/dev/ttyUSB0 make flash
 ```
+
+> The path for your usb adapter might vary, in that case replace `/dev/ttyUSB0` with the correct path.
+
+Disconnect the Arduino Pro Mini and connect all the other parts as shown in this schematic and in the picture:
+
+![schematic](schematic.png)
+
+![picture](setup.jpg)
+
+Connect the Raspberry Pico and the Arduino Pro Mini to the computer again. This time connecting only Gnd, Txd and Rxd for serial communication with the Arduino and run `picocom -b 9600 [usb adapter path]`. You should see the output from the victim's code.
+
+```
+$ picocom -b 9600 /dev/ttyUSB0 
+picocom v3.1
+
+port is        : /dev/ttyUSB0
+flowcontrol    : none
+baudrate is    : 9600
+parity is      : none
+databits are   : 8
+stopbits are   : 1
+escape is      : C-a
+local echo is  : no
+noinit is      : no
+noreset is     : no
+hangup is      : no
+nolock is      : no
+send_cmd is    : sz -vv
+receive_cmd is : rz -vv -E
+imap is        : 
+omap is        : 
+emap is        : crcrlf,delbs,
+logfile is     : none
+initstring     : none
+exit_after is  : not set
+exit is        : no
+
+Type [C-a] [C-h] to see available commands
+Terminal ready
+Booting...
+c == 10000
+c == 10000
+c == 10000
+c == 10000
+c == 10000
+c == 10000
+```
+
+Now you are ready to glitch by pressing the buttons, first `Arm` and then `Glitch`. To achieve a succesful glitch you can adjust the initial voltage with the potentiometer.
 
 ## References and links
 
