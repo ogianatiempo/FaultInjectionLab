@@ -1,5 +1,9 @@
 # FaultInjectionLab
 
+Fault injection are a set of techniques for manipulating a processor's electrical input or environmental conditions, taking them outside safe operating levels to cause a controlled malfunction. This can result in skipped or repeated instructions and corrupt memory accesses, which in turn can affect program execution. If triggered at the right moment, these faults can have security implications. For example, fault injection has been used to bypass firmware integrity checks and microcontroller memory protections.
+ 
+Did you know you can use a Raspberry Pico to inject voltage glitches and hack and Arduino? Follow these steps if you want to try it.
+
 ## Materials
 
 - Arduino Pro Mini 3.3V
@@ -108,7 +112,19 @@ c == 10000
 c == 10000
 ```
 
-Now you are ready to glitch by pressing the buttons, first `Arm` and then `Glitch`. To achieve a succesful glitch you can adjust the initial voltage with the potentiometer.
+Now you are ready to glitch by pressing the buttons, first `Arm` and then `Glitch`. You can adjust the initial voltage with the potentiometer. If you glitch to hard, the Arduino will reset. If you achieve a succesfull glitch, you will get something like this:
+
+```
+c == 10000
+c == 10000
+c == 10000
+c == 10000
+c == 9991
+You win!
+```
+
+Note that the value of `c` will change depending on the timming of the glitch. Review the victim's code to understand why. For example this particular result might be explained by a glitch that corrupted a comparison, causing and early termination of the inner `for` cycle.
+
 
 ## References and links
 
